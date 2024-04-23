@@ -6,7 +6,7 @@ export const verifyJWT = async (req, res, next) => {
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer", "")
         if (!token) {
-            return res.status(401).json(new ApiError(401, "Unauthorized request"))
+            return res.status(401).json(new ApiError(401, "You need to login first"))
         }
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
         const user = await findUserById(decodedToken?._id)

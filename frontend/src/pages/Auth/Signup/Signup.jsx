@@ -22,7 +22,7 @@ const Signup = () => {
         }
       );
       const { message } = response.data;
-      
+
       toast(message);
       setTimeout(() => {
         navigate("/login");
@@ -92,7 +92,7 @@ const Signup = () => {
 
             {/* submit button */}
             <div className="text-center mt-6">
-              <SubmitButton buttonName={Signup} />
+              <SubmitButton buttonName={"Signup"} />
             </div>
           </form>
           <hr className="mt-5 bg-slate-900 h-[2px] opacity-30" />

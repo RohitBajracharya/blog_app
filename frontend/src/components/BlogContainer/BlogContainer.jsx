@@ -14,7 +14,6 @@ const BlogContainer = ({ blogs, authenticatedUserId = "" }) => {
   const handleDelete = async (blog) => {
     try {
       const id = blog._id;
-      console.log("id: : ", id);
       const response = await axios.delete(
         `http://localhost:8001/api/users/delete-blog/${id}`,
         {
@@ -26,7 +25,6 @@ const BlogContainer = ({ blogs, authenticatedUserId = "" }) => {
       toast(message);
       window.location.reload();
     } catch (error) {
-      console.log("error", error);
       const { message } = error.response.data;
       toast.error(message);
     }

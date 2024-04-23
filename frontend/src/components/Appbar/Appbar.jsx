@@ -12,7 +12,6 @@ const Appbar = () => {
   const isLoggedIn = Cookies.get("accessToken");
 
   const handleLogout = async () => {
-    console.log("clicked");
     Cookies.remove("accessToken");
     toast.success("Logout Successfully");
     navigate("/");

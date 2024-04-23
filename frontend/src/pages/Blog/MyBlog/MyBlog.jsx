@@ -16,7 +16,6 @@ const MyBlog = () => {
             withCredentials: true,
           }
         );
-        console.log("response: ", response.data.data[0].user);
         setBlogs(response.data.data);
         setLoading(false);
       } catch (error) {
