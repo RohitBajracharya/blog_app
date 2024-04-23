@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import BlogContainer from "../../components/BlogContainer/BlogContainer";
-import Slider from "../../components/Slider/Slider";
+import BlogContainer from "../../../components/BlogContainer/BlogContainer";
 
-const Home = () => {
+const MyBlog = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +10,13 @@ const Home = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:8001/api/blogs");
+        const response = await axios.get(
+          "http://localhost:8001/api/users/blogs",
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("response: ", response.data.data[0].user);
         setBlogs(response.data.data);
         setLoading(false);
       } catch (error) {
@@ -22,17 +27,13 @@ const Home = () => {
 
     fetchBlogs();
   }, []);
-
   return (
     <div className="pt-20 px-9 bg-slate-200 pb-8 min-h-screen">
-      <div>
-        {/* Slider */}
-        <Slider />
-      </div>
-      <div className="mt-6 min-h-screen">
+      <div className=" mt-6 min-h-screen">
         <div>
           <h1 className="lg:text-3xl font-bold uppercase">All Blogs</h1>
         </div>
+        {/* blog container */}
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
@@ -40,11 +41,11 @@ const Home = () => {
         ) : blogs.length === 0 ? (
           <p>No blogs found.</p>
         ) : (
-          <BlogContainer blogs={blogs} />
+          <BlogContainer blogs={blogs} authenticatedUserId={blogs[0].user} />
         )}
       </div>
     </div>
   );
 };
 
-export default Home;
+export default MyBlog;

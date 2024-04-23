@@ -16,7 +16,7 @@ export const verifyJWT = async (req, res, next) => {
         req.user = user
         next()
     } catch (error) {
-        console.log(error);
+        console.log("Error in authentication: ", error);
         res.status(401).json(new ApiError(401, error.message))
     }
 }

@@ -5,7 +5,7 @@ class ApiError {
     ) {
         this.statusCode = statusCode
         this.message = message
-        this.succes = false
+        this.success = false
     }
 }
 

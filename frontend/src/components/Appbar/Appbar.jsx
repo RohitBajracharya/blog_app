@@ -1,10 +1,22 @@
+import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Button from "../Button/Button";
+import OnclickButton from "../Button/OnclickButton";
 
 const Appbar = () => {
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
+  const isLoggedIn = Cookies.get("accessToken");
+
+  const handleLogout = async () => {
+    console.log("clicked");
+    Cookies.remove("accessToken");
+    toast.success("Logout Successfully");
+    navigate("/");
+  };
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -12,8 +24,9 @@ const Appbar = () => {
 
   return (
     <div>
-      <div className="md:hidden">
-        <nav className="bg-gray-400 fixed text-white z-[99]">
+      {/* for mobile */}
+      <div className="md:hidden lg:hidden">
+        <nav className="bg-green-300 fixed text-white z-[99]">
           <div className="w-screen h-16 flex items-center px-9 justify-between">
             <div>
               <h1 className="text-3xl hover:cursor-pointer">
@@ -43,25 +56,48 @@ const Appbar = () => {
               >
                 Add Blog
               </Link>
-              <Link
-                to="/login"
-                className="text-xl hover:cursor-pointer hover:text-slate-200 py-2 w-screen text-center"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="text-xl hover:cursor-pointer hover:text-slate-200 py-2 w-screen text-center"
-              >
-                SignUp
-              </Link>
+              {isLoggedIn && (
+                <Link
+                  to="/my-blogs"
+                  className="text-xl hover:cursor-pointer hover:text-slate-200 py-2 w-screen text-center"
+                >
+                  My Blogs
+                </Link>
+              )}
+              {!isLoggedIn && (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-xl hover:cursor-pointer hover:text-slate-200 py-2 w-screen text-center"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="text-xl hover:cursor-pointer hover:text-slate-200 py-2 w-screen text-center"
+                  >
+                    SignUp
+                  </Link>
+                </>
+              )}
+              {isLoggedIn && (
+                <>
+                  <div
+                    onClick={handleLogout}
+                    className="text-xl hover:cursor-pointer hover:text-slate-200 py-2 w-screen text-center"
+                  >
+                    Logout
+                  </div>
+                </>
+              )}
             </div>
           )}
         </nav>
       </div>
 
-      <div className="hidden md:block">
-        <nav className="bg-gray-400 fixed text-white z-[99]">
+      {/* for large and medium screen */}
+      <div className="hidden md:block lg:block">
+        <nav className="bg-green-300 fixed text-white z-[99]">
           <div className="w-screen h-16 flex items-center px-9 justify-between">
             <div>
               <h1 className="text-3xl hover:cursor-pointer">
@@ -81,11 +117,26 @@ const Appbar = () => {
               >
                 Add Blog
               </Link>
+              {isLoggedIn && (
+                <Link
+                  to="/my-blogs"
+                  className="hover:cursor-pointer hover:text-slate-200"
+                >
+                  My Blogs
+                </Link>
+              )}
             </div>
-            <div className="flex gap-3 items-center text-lg">
-              <Button buttonName={"Login"} url={"/login"} />
-              <Button buttonName={"Signup"} url={"/signup"} />
-            </div>
+            {isLoggedIn && (
+              <div className="flex gap-3 items-center text-lg">
+                <OnclickButton buttonName={"Logout"} onClick={handleLogout} />
+              </div>
+            )}
+            {!isLoggedIn && (
+              <div className="flex gap-3 items-center text-lg">
+                <Button buttonName={"Login"} url={"/login"} />
+                <Button buttonName={"Signup"} url={"/signup"} />
+              </div>
+            )}
           </div>
         </nav>
       </div>
