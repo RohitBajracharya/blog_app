@@ -19,3 +19,8 @@
 9. jsonwebtoken
 10. mongoose
 11. nodemon
+
+#### hooks used
+1. useState
+2. useContext
+3. useEffect
